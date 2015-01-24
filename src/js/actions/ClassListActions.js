@@ -13,6 +13,12 @@ var classListActions = {
       actionType: AppConstants.REMOVE_USER,
       data: index
     });
+  },
+  addEmails: function(emailStr){
+    AppDispatcher.handleAction({
+      actionType: AppConstants.ADD_EMAILS,
+      data: emailStr
+    })
   }
 };
 

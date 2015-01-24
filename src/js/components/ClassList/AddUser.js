@@ -1,16 +1,19 @@
 var React = require('react');
-var classListActions = require('../../actions/ClassListActions')
+var classListActions = require('../../actions/ClassListActions');
+var ClassListStore = require('../../stores/ClassListStore');
 
 var AddUser = React.createClass({
   getInitialState: function() {
-    return {
-      emails: ''
-    };
+    return ClassListStore.getState();
+  },
+  componentDidMount: function(){
+    ClassListStore.addChangeListener(this._onChange);
+  },
+  componentWillUnmount: function(){
+    ClassListStore.removeChangeListener(this._onChange)
   },
   handleChange: function(e) {
-    this.setState({
-      emails: e.target.value
-    });
+    classListActions.addEmails(e.target.value);
   },
   handleSubmit: function(){
     var arr = this.state.user.split(",");
@@ -33,6 +36,11 @@ var AddUser = React.createClass({
         </div>
       </form>
     );
+  },
+  _onChange: function(){
+    this.setState(
+      ClassListStore.getState()
+    )
   }
 });
 

@@ -7,14 +7,17 @@ var fbRef = require('../utils/FirebaseUtils').homeInstance();
 var CHANGE_EVENT = 'change';
 
 var _state = {
-  users: []
+  users: [{name: 'todo', email: 'todoemail'}, {name: 'Tyler', email: 'tylr@gmail.com'}],
+  emails: ''
 };
 
 var setUsers = function(usersArr){
-  _state = {
-    users: usersArr
-  }
+  _state.users = usersArr
 };
+
+var setEmails = function(emailList){
+  _state.emails = emailList;
+}
 
 var removeUser = function(index) {
   _state.users.splice(index, 1);
@@ -34,6 +37,7 @@ var ClassListStore = objectAssign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function(payload) {
   var action = payload.action;
+  console.log(action);
   switch(action.actionType) {
     case AppConstants.ADD_USER :
       setUsers(action.data);
@@ -43,6 +47,10 @@ AppDispatcher.register(function(payload) {
       removeUser(action.data);
       ClassListStore.emit(CHANGE_EVENT);
     break;
+    case AppConstants.ADD_EMAILS :
+      setEmails(action.data);
+      console.log(_state)
+      ClassListStore.emit(CHANGE_EVENT);
     default :
       return true;
   }

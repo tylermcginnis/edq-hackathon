@@ -3,6 +3,7 @@ var AppConstants = {
   REMOVE_USER: 'REMOVE_USER',
   INITIALIZE_USER:'INITIALIZE_USER',
   UPDATE_USER: "UPDATE_USER",
+  ADD_EMAILS: "ADD_EMAILS",
   FIREBASE_HOST: 'https://edq.firebaseio.com/'
 };
 
