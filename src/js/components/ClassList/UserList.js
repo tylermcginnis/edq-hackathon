@@ -2,12 +2,19 @@ var React = require('react');
 var UserInfo = require('./UserInfo');
 
 var UserList = React.createClass({
+  getInitialState: function(){
+    return {
+      data: [{name: 'todo', email: 'todoemail'}, {name: 'Tyler', email: 'tylr@gmail.com'}]
+    }
+  },
   componentDidMount: function() {
-    console.log('todo');
+
   },
   render: function() {
     var list = this.state.data.map(function(info) {
-      <UserInfo data={info} />
+      return (
+        <UserInfo data={info} />
+      )
     });
     return (
       <div>

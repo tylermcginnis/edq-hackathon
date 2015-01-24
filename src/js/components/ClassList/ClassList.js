@@ -24,4 +24,4 @@ var ClassList = React.createClass({
   }
 });
 
-module.exports = ClassList 
+module.exports = ClassList

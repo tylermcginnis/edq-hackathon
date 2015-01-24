@@ -4,6 +4,9 @@ var UserInfo = React.createClass({
   handleClick: function() {
     console.log('remove Student')
   },
+  componentDidMount: function(){
+
+  },
   render: function() {
     return (
       <div className="well">

@@ -1,5 +1,5 @@
 var React = require('react');
-var classListActions = require('../actions/ClassListActions')
+var classListActions = require('../../actions/ClassListActions')
 
 var AddUser = React.createClass({
   getInitialState: function() {

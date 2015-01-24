@@ -14,6 +14,6 @@ var classListActions = {
       data: index
     });
   }
-}
+};
 
 module.exports = classListActions
