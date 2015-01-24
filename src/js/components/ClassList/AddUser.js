@@ -16,12 +16,11 @@ var AddUser = React.createClass({
     classListActions.addEmails(type, e.target.value);
   },
   handleSubmit: function(type){
-    var arr = this.state.user.split(",");
+    var arr = this.state[this.props.user].emails.split(",");
     for(var i = 0; i < arr.length; i++) {
       arr[i] = arr[i].trim();
     };
     classListActions.addUser(type, arr);
-    //action creator
   },
   render: function() {
     return (
