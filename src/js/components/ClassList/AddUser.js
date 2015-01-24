@@ -12,27 +12,25 @@ var AddUser = React.createClass({
   componentWillUnmount: function(){
     ClassListStore.removeChangeListener(this._onChange)
   },
-  handleChange: function(e) {
-    classListActions.addEmails(e.target.value);
+  handleChange: function(type, e) {
+    classListActions.addEmails(type, e.target.value);
   },
-  handleSubmit: function(){
+  handleSubmit: function(type){
     var arr = this.state.user.split(",");
     for(var i = 0; i < arr.length; i++) {
       arr[i] = arr[i].trim();
     };
-    classListActions.addUser(arr);
-    this.setState({
-      emails: ''
-    });
+    classListActions.addUser(type, arr);
+    //action creator
   },
   render: function() {
     return (
       <form>
         <div className="form-group">
-          <textarea className="form-control" placeholder="tyler.mcginnis@devmtn.com, ean@devmtn.com, jacob.turner@devmtn.com" value={this.state.emails} onChange={this.handleChange} ></textarea>
+          <textarea className="form-control" placeholder="tyler.mcginnis@devmtn.com, ean@devmtn.com, jacob.turner@devmtn.com" value={this.state[this.props.user].emails} onChange={this.handleChange.bind(this, this.props.user)} ></textarea>
         </div>
         <div className="form-group">
-          <button className="btn btn-success" onClick={this.handleSubmit} >Add {this.props.user}</button>
+          <button className="btn btn-success" onClick={this.handleSubmit.bind(this, this.props.user)} >Add {this.props.user}</button>
         </div>
       </form>
     );

@@ -2,10 +2,13 @@ var AppDispatcher = require('../dispatcher/AppDispatcher');
 var AppConstants = require('../constants/AppConstants');
 
 var classListActions = {
-  addUser: function(user) {
+  addUser: function(type, user) {
     AppDispatcher.handleAction({
       actionType: AppConstants.ADD_USER,
-      data: user
+      data: {
+        type: type,
+        user: user
+      }
     });
   },
   removeUser: function(index) {
@@ -14,10 +17,13 @@ var classListActions = {
       data: index
     });
   },
-  addEmails: function(emailStr){
+  addEmails: function(type, emailStr){
     AppDispatcher.handleAction({
       actionType: AppConstants.ADD_EMAILS,
-      data: emailStr
+      data: {
+        type: type,
+        emailStr: emailStr
+      }
     })
   }
 };

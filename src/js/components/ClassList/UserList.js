@@ -11,7 +11,7 @@ var UserList = React.createClass({
 
   },
   render: function() {
-    var list = this.state.users.map(function(info) {
+    var list = this.state[this.props.user].users.map(function(info) {
       return (
         <UserInfo data={info} />
       )
