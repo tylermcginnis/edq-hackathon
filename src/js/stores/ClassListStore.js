@@ -8,26 +8,21 @@ var CHANGE_EVENT = 'change';
 
 var _state = {
   Student: {
-    emails: '',
-    users: [{name: 'todo', email: 'todoemail'}, {name: 'Tyler', email: 'tylr@gmail.com'}]
+    users: ['todoemail', 'tylr@gmail.com']
   },
   Assistant: {
-    emails: '',
-    users: [{name: 'stdent name', email: 't@gm.com'}]
+    users: ["assi@fds.com, assfe@gmail.com"]
   },
   Teacher: {
-    emails: '',
-    users: []
+    users: ["teach@gma.com"]
   }
 };
 
 var setUsers = function(usersObj){
-  _state[usersObj.type].users = usersObj.user;
+  console.log('The intiial state', _state.Student.users)
+  _state[usersObj.type].users = _state[usersObj.type].users.concat(usersObj.user);
+  console.log('The new state is ', _state.Student.users);
 };
-
-var setEmails = function(emailObj){
-  _state[emailObj.type].emails = emailObj.emailStr;
-}
 
 var removeUser = function(index) {
   _state.users.splice(index, 1); //todo
@@ -47,7 +42,6 @@ var ClassListStore = objectAssign({}, EventEmitter.prototype, {
 
 AppDispatcher.register(function(payload) {
   var action = payload.action;
-  console.log(action);
   switch(action.actionType) {
     case AppConstants.ADD_USER :
       setUsers(action.data);
@@ -57,10 +51,6 @@ AppDispatcher.register(function(payload) {
       removeUser(action.data);
       ClassListStore.emit(CHANGE_EVENT);
     break;
-    case AppConstants.ADD_EMAILS :
-      setEmails(action.data);
-      console.log(_state)
-      ClassListStore.emit(CHANGE_EVENT);
     default :
       return true;
   }

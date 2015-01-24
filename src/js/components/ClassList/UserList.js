@@ -1,7 +1,7 @@
 var React = require('react');
 var UserInfo = require('./UserInfo');
 var classListActions = require('../../actions/ClassListActions');
-var ClassListStore = require('../../Stores/ClassListStore');
+var ClassListStore = require('../../stores/ClassListStore');
 
 var UserList = React.createClass({
   getInitialState: function(){
