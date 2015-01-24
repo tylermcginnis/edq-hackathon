@@ -19,9 +19,7 @@ var _state = {
 };
 
 var setUsers = function(usersObj){
-  console.log('The intiial state', _state.Student.users)
   _state[usersObj.type].users = _state[usersObj.type].users.concat(usersObj.user);
-  console.log('The new state is ', _state.Student.users);
 };
 
 var removeUser = function(index) {

@@ -11,6 +11,13 @@ var AddUser = React.createClass({
       emails: e.target.value
     });
   },
+  onSubmit: function(e){
+    e.preventDefault();
+    this.props.handleSubmit(this.props.user, this.state.emails);
+    this.setState({
+      emails: ''
+    })
+  },
   render: function() {
     return (
       <form>
@@ -18,7 +25,7 @@ var AddUser = React.createClass({
           <textarea className="form-control" placeholder="tyler.mcginnis@devmtn.com, ean@devmtn.com, jacob.turner@devmtn.com" value={this.state.emails} onChange={this.handleChange} ></textarea>
         </div>
         <div className="form-group">
-          <button className="btn btn-success" onClick={this.props.handleSubmit.bind(this, this.props.user, this.state.emails)} >Add {this.props.user}</button>
+          <button className="btn btn-success" onClick={this.onSubmit} >Add {this.props.user}</button>
         </div>
       </form>
     );

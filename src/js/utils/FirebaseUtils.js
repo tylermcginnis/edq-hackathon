@@ -14,7 +14,6 @@ var firebaseUtils = {
   },
   createUser: function(user, cb) {
     var ref = this.homeInstance();
-    console.log('The user is ', user);
     ref.createUser(user, function(error) {
       if (error) {
         switch (error.code) {
