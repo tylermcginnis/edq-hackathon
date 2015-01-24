@@ -12,8 +12,9 @@ var firebaseUtils = {
     }
     return arr;
   },
-  createUser: function(user) {
+  createUser: function(user, cb) {
     var ref = this.homeInstance();
+    console.log('The user is ', user);
     ref.createUser(user, function(error) {
       if (error) {
         switch (error.code) {
@@ -27,9 +28,10 @@ var firebaseUtils = {
             console.log("Error creating user:", error);
         }
       } else if(error === null){
-        console.log('User created!');
-        return ref.authWithPassword(user, function(err, authData) {
-          return authData;
+        ref.authWithPassword(user, function(err, authData) {
+          if(err === null){
+            cb(authData);
+          }
         });
       }
     });

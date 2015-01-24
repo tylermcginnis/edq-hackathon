@@ -12,6 +12,12 @@ var dispatcherCallback = function(authObj) {
 var registrationActions = {
   registerUser: function(user) {
     FirebaseUtils.createUser(user, dispatcherCallback);
+  },
+  updateUser: function(userObj){
+    AppDispatcher.handleAction({
+      actionType: AppConstants.UPDATE_USER,
+      data: userObj
+    });
   }
 };
 

@@ -7,7 +7,11 @@ var fbRef = require('../utils/FirebaseUtils').homeInstance();
 var CHANGE_EVENT = 'change';
 
 var _state = {
-  user: {}
+  user: {
+    name: '',
+    email: '',
+    password: ''
+  }
 };
 
 var initializeUser = function(user) {
@@ -15,6 +19,10 @@ var initializeUser = function(user) {
     user: user
   }
 };
+
+var updateUser = function(obj){
+  _state.user[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]]
+}
 
 var UserStore = objectAssign({}, EventEmitter.prototype, {
   getState: function() {
@@ -34,6 +42,13 @@ AppDispatcher.register(function(payload) {
     case AppConstants.INITIALIZE_USER :
       initializeUser(action.data);
       UserStore.emit(CHANGE_EVENT);
-      break;
+    break;
+    case AppConstants.UPDATE_USER :
+      updateUser(action.data);
+      UserStore.emit(CHANGE_EVENT);
+    default :
+      return true;
   }
 });
+
+module.exports = UserStore;
