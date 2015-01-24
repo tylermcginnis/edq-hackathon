@@ -14,12 +14,15 @@ var path = {
   DEST: 'dist',
   DEST_BUILD: 'dist/build',
   DEST_SRC: 'dist/src',
-  ENTRY_POINT: './src/js/main.js'
+  ENTRY_POINT: './src/js/main.js',
+  IMAGES: 'src/images/*'
 };
 
 gulp.task('copy', function(){
   gulp.src(path.HTML)
     .pipe(gulp.dest(path.DEST));
+  gulp.src(path.IMAGES)
+    .pipe(gulp.dest(path.DEST + '/images'))
 });
 
 gulp.task('watch', function() {
