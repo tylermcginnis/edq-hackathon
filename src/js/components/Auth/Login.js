@@ -1,5 +1,5 @@
 var React = require('react');
-var RegistrationActions = require('../../actions/RegistrationActions');
+var AuthActions = require('../../actions/AuthActions');
 var UserStore = require('../../stores/UserStore');
 
 var Login = React.createClass({
@@ -16,8 +16,7 @@ var Login = React.createClass({
 		this.setState(obj);
 	},
 	handleSubmit: function(){
-		RegistrationActions.login(this.state.email, this.state.password)
-		console.log(UserStore.getState());
+		AuthActions.login(this.state.email, this.state.password);
 	},
 	render: function(){
     return (

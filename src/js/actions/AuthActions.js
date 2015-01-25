@@ -25,10 +25,12 @@ var registrationActions = {
       password: pw
     }, function(err, authData){
       // console.log(err, authData);
+      console.log(authData.name);
       AppDispatcher.handleAction({
         actionType: AppConstants.UPDATE_USER,
         data: {
-          email: authData.password.email
+          email: authData.password.email,
+          name: authData.name
         }
       })
     })

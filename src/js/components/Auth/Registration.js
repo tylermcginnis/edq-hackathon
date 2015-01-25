@@ -1,5 +1,5 @@
 var React = require('react');
-var RegistrationActions = require('../../actions/RegistrationActions');
+var AuthActions = require('../../actions/AuthActions');
 var UserStore = require('../../stores/UserStore');
 
 var Registration = React.createClass({
@@ -15,10 +15,10 @@ var Registration = React.createClass({
   handleChange: function(prop, e) {
     var obj = {};
     obj[prop] = e.target.value;
-    RegistrationActions.updateUser(obj);
+    AuthActions.updateUser(obj);
   },
   handleSubmit: function() {
-    RegistrationActions.registerUser(this.state.user);
+    AuthActions.registerUser(this.state.user);
   },
   render: function() {
     return (
