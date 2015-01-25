@@ -111,6 +111,15 @@ var firebaseUtils = {
       dispatcherCB(arr);
     }.bind(this))
   },
+  removeClass: function(name, email){
+    var ref = this.homeInstance();
+    if(email){
+      email = this.formatEmailForFirebase(email);
+    } else {
+      email = this.formatEmailForFirebase(ref.getAuth().password.email);
+    }
+    ref.child('classes').child(email).child(name.toLowerCase()).remove();
+  },
   formatURL: function(str){
     return str.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
   },

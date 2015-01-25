@@ -4,7 +4,7 @@ var Class = React.createClass({
   render: function(){
     return (
       <div className="col-sm-4 card">
-        <span className="pull-right"> PENCIL </span>
+        <span className="pull-right" onClick={this.props.removeClass.bind(this, this.props.index, this.props.info.name)}> PENCIL </span>
         <div className="col-sm-12 text-center">
           <h2> {this.props.info.name} </h2>
           <h5> 13 Members </h5>

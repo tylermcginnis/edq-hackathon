@@ -22,6 +22,9 @@ var Dashboard = React.createClass({
       newClass: ''
     })
   },
+  removeClass: function(index, name){
+    DashboardActions.removeClass(index, name, UserStore.getState().user.email);
+  },
   componentDidMount: function(){
     DashboardStore.addChangeListener(this._onChange);
     DashboardActions.getClasses(UserStore.getState().user.email);
@@ -30,11 +33,11 @@ var Dashboard = React.createClass({
     DashboardStore.removeChangeListener(this._onChange)
   },
   render: function(){
-    var list = this.state.classes.map(function(klass){
+    var list = this.state.classes.map(function(klass, index){
       return (
-        <Class info={klass} />
+        <Class info={klass} index={index} removeClass={this.removeClass}/>
       )
-    });
+    }.bind(this));
     return (
       <div className="container">
         <div className="row">
