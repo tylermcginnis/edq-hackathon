@@ -18,10 +18,7 @@ var Registration = React.createClass({
     RegistrationActions.updateUser(obj);
   },
   handleSubmit: function() {
-    RegistrationActions.registerUser({
-      email: this.state.user.email,
-      password: this.state.user.password
-    });
+    RegistrationActions.registerUser(this.state.user);
   },
   render: function() {
     return (

@@ -29,11 +29,34 @@ var firebaseUtils = {
       } else if(error === null){
         ref.authWithPassword(user, function(err, authData) {
           if(err === null){
-            cb(authData);
+            cb(user);
+            this.addUserToFirebase({
+              email: user.email,
+              name: user.name
+            });
           }
-        });
+        }.bind(this));
       }
-    });
+    }.bind(this));
+  },
+  login: function(userObj, cb){
+    this.homeInstance().authWithPassword(userObj, function(error, authData){
+      cb(authData);
+    }.bind(this));
+  },
+  addUserToFirebase: function(authData){
+    var key = this.formatEmailForFirebase(authData.email);
+    this.homeInstance().child('user').child(key).set(authData);
+  },
+  addClassToFirebase: function(){
+
+  },
+  formatEmailForFirebase : function(email){
+    var key = email.replace('@', '^');
+    if(key.indexOf('.') !== -1){
+      return key.split('.').join('*');
+    }
+    return key;
   }
 };
 

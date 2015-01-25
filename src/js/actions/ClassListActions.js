@@ -3,7 +3,7 @@ var AppConstants = require('../constants/AppConstants');
 
 var classListActions = {
   addUser: function(type, user) {
-    //FIREBASE REQUEST
+    //FIREBASE REQUEST todo
     AppDispatcher.handleAction({
       actionType: AppConstants.ADD_USER,
       data: {

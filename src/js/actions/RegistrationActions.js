@@ -18,6 +18,14 @@ var registrationActions = {
       actionType: AppConstants.UPDATE_USER,
       data: userObj
     });
+  },
+  login: function(email, pw){
+    FirebaseUtils.login({
+      email: email,
+      password: pw
+    }, function(err, authData){
+      //you are logged in redirect
+    })
   }
 };
 
