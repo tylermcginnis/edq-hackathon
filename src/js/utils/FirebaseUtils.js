@@ -136,11 +136,12 @@ var firebaseUtils = {
                 name: data.name,
                 queue: data.queue
               });
+              finalClassList = this.toArray(finalClassList).sort(this.sortData("name", true));
               dispatcherCB(finalClassList);
             }
-          })
-        })(i);
-      }
+          }.bind(this))
+        }.bind(this))(i);
+      };
 
       // var arr = this.toArray(snapshot.val()).sort(this.sortData("name", true));
       // dispatcherCB(arr);
@@ -159,10 +160,11 @@ var firebaseUtils = {
     if(email){
       var fbClassId = this.formatFBClassID(className, email);
     } else {
-      var fbClassId = this.formatFBClassID(className, ref.getAuth().password.email);
+      email = ref.getAuth().password.email;
+      var fbClassId = this.formatFBClassID(className, email);
     }
     ref.child('classes').child(fbClassId).remove();
-    ref.child('user').child('classes').child(fbClassId).remove();
+    ref.child('user').child(this.formatEmailForFirebase(email)).child('classes').child(fbClassId).remove();
   },
   formatFBClassID: function(className, email){
     return this.formatEmailForFirebase(email) + className.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
