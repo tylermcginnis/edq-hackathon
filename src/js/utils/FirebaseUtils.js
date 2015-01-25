@@ -44,6 +44,28 @@ var firebaseUtils = {
       cb(authData);
     }.bind(this));
   },
+  changePassword: function(obj, cb){
+    this.homeInstance().changePassword({
+      email: obj.user.email,
+      oldPassword: obj.oldPass,
+      newPassword: obj.newPass
+    }, function(error){
+      if(error){
+        switch(error.code){
+          case "INVALID_PASSWORD":
+            cb("The specified user account password is incorrect.");
+            break;
+          case "INVALID_USER":
+            cb("The specified user account does not exist.");
+            break;
+          default:
+            cb("Error changing password:", error);
+        }
+      } else {
+        cb();
+      }
+    })
+  },
   addUserToFirebase: function(authData){
     var key = this.formatEmailForFirebase(authData.email);
     this.homeInstance().child('user').child(key).set(authData);

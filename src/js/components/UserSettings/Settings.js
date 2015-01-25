@@ -6,7 +6,7 @@ var ReactAddons = require('react/addons');
 var Settings = React.createClass({
 	getInitialState: function(){
 		return {
-			user: UserStore.getState(),
+			user: UserStore.getState().user,
 			showNameInput: false,
 			showPassInput: false,
 			newName: '',
@@ -30,14 +30,14 @@ var Settings = React.createClass({
 		this.setState(obj)
 	},
 	handleChangePassword: function(){
-		var obj = {
-			old: this.state.originalPass,
-			new: this.state.newPass
-		};
-		console.log(obj);
+		SettingsActions.changePassword({
+			user: this.state.user,
+			oldPass: this.state.originalPass,
+			newPass: this.state.newPass
+		});
 	},
 	handleChangeName: function(){
-		console.log(this.state.newName);
+
 	},
 	render: function(){
 		var cx = ReactAddons.addons.classSet;
@@ -81,6 +81,9 @@ var Settings = React.createClass({
 				</div>
 			</div>
 		)
+	},
+	_onChange: function(){
+		
 	}
 });
 
