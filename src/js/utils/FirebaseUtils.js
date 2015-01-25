@@ -91,27 +91,59 @@ var firebaseUtils = {
     var ref = this.homeInstance();
     var authData = ref.getAuth();
     if(authData){
-      var classObj = {
-        classId: this.formatURL(klass.name),
-        name: klass.name,
-      };
-      var key = this.formatEmailForFirebase(authData.password.email);
-      ref.child('/classes').child(key).child(classObj.classId).set(classObj);
+      var fbClassId = this.formatFBClassID(klass.name, authData.password.email);
+      var email = this.formatEmailForFirebase(authData.password.email)
+      ref.child('classes').child(fbClassId).set({
+        name: klass.name
+      });
+      ref.child('classes').child(fbClassId).child('members').push({
+        role: 'teacher',
+        id: email
+      });
+      ref.child('user').child(email).child('classes').child(fbClassId).set({
+        role: 'teacher'
+      })
     } else {
       //go back to home screen because not logged in?
     }
   },
-  getClasses: function(userEmail, dispatcherCB){
+  getClasses: function(email, dispatcherCB){
     var ref = this.homeInstance();
-    if(userEmail) {
-      userEmail = formatEmailForFirebase(userEmail);
+    if(email) {
+      var email = this.formatEmailForFirebase(email);
     } else {
-      userEmail = this.formatEmailForFirebase(ref.getAuth().password.email);
+      var email = this.formatEmailForFirebase(ref.getAuth().password.email);
     }
 
-    ref.child('classes').child(userEmail).on('value', function(snapshot){
-      var arr = this.toArray(snapshot.val()).sort(this.sortData("name", true));
-      dispatcherCB(arr);
+    ref.child('user').child(email).child('classes').on('value', function(snapshot){
+      var classes = [];
+      var data = snapshot.val();
+      for(var key in data){
+        classes.push({
+          classID: key,
+          role: data[key].role
+        });
+      };
+      var finalClassList = [];
+      for(var i = 0; i < classes.length; i++){
+        (function(i){
+          ref.child('classes').child(classes[i].classID).once('value', function(snapshot){
+            if(snapshot.val()){
+              var data = snapshot.val();
+              finalClassList.push({
+                role: classes[i].role,
+                members: data.members,
+                name: data.name,
+                queue: data.queue
+              });
+              dispatcherCB(finalClassList);
+            }
+          })
+        })(i);
+      }
+
+      // var arr = this.toArray(snapshot.val()).sort(this.sortData("name", true));
+      // dispatcherCB(arr);
     }.bind(this))
   },
   getUser: function(cb){
@@ -122,17 +154,18 @@ var firebaseUtils = {
       cb(user);
     });
   },
-  removeClass: function(name, email){
+  removeClass: function(className, email){
     var ref = this.homeInstance();
     if(email){
-      email = this.formatEmailForFirebase(email);
+      var fbClassId = this.formatFBClassID(className, email);
     } else {
-      email = this.formatEmailForFirebase(ref.getAuth().password.email);
+      var fbClassId = this.formatFBClassID(className, ref.getAuth().password.email);
     }
-    ref.child('classes').child(email).child(this.formatURL(name)).remove();
+    ref.child('classes').child(fbClassId).remove();
+    ref.child('user').child('classes').child(fbClassId).remove();
   },
-  formatURL: function(str){
-    return str.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
+  formatFBClassID: function(className, email){
+    return this.formatEmailForFirebase(email) + className.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
   },
   toArray: function(obj){
     var arr = [];
