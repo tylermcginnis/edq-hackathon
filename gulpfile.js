@@ -6,6 +6,7 @@ var browserify = require('browserify');
 var watchify = require('watchify');
 var reactify = require('reactify');
 var streamify = require('gulp-streamify');
+var livereload = require('gulp-livereload');
 
 var path = {
   HTML: 'src/index.html',
@@ -23,10 +24,13 @@ gulp.task('copy', function(){
     .pipe(gulp.dest(path.DEST));
   gulp.src(path.IMAGES)
     .pipe(gulp.dest(path.DEST + '/images'))
+  gulp.src('src/styles.css')
+    .pipe(gulp.dest(path.DEST))
 });
 
 gulp.task('watch', function() {
   gulp.watch(path.HTML, ['copy']);
+  livereload.listen();
 
   var watcher  = watchify(browserify({
     entries: [path.ENTRY_POINT],
@@ -39,6 +43,7 @@ gulp.task('watch', function() {
     watcher.bundle()
       .pipe(source(path.OUT))
       .pipe(gulp.dest(path.DEST_SRC))
+      .pipe(livereload())
       console.log('Updated');
   })
     .bundle()

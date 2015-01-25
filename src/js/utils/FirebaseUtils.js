@@ -5,13 +5,6 @@ var firebaseUtils = {
   homeInstance: function(){
     return new Firebase(AppConstants.FIREBASE_HOST);
   },
-  toArray: function(obj){
-    var arr = [];
-    for(var key in obj){
-      arr.push(obj[key]);
-    }
-    return arr;
-  },
   createUser: function(user, cb) {
     var ref = this.homeInstance();
     ref.createUser(user, function(error) {
@@ -48,8 +41,42 @@ var firebaseUtils = {
     var key = this.formatEmailForFirebase(authData.email);
     this.homeInstance().child('user').child(key).set(authData);
   },
-  addClassToFirebase: function(){
+  addClassToFirebase: function(klass){
+    var ref = this.homeInstance();
+    var authData = ref.getAuth();
+    if(authData){
+      var classObj = {
+        classId: this.formatURL(klass.name),
+        name: klass.name,
+      };
+      var key = this.formatEmailForFirebase(authData.password.email);
+      ref.child('/classes').child(key).child(classObj.classId).set(classObj);
+    } else {
+      //go back to home screen because not logged in?
+    }
+  },
+  getClasses: function(userEmail, dispatcherCB){
+    var ref = this.homeInstance();
+    if(userEmail) {
+      userEmail = formatEmailForFirebase(userEmail);
+    } else {
+      userEmail = this.formatEmailForFirebase(ref.getAuth().password.email);
+    }
 
+    ref.child('classes').child(userEmail).on('value', function(snapshot){
+      var arr = this.toArray(snapshot.val());
+      dispatcherCB(arr);
+    }.bind(this))
+  },
+  formatURL: function(str){
+    return str.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
+  },
+  toArray: function(obj){
+    var arr = [];
+    for(var key in obj){
+      arr.push(obj[key]);
+    }
+    return arr;
   },
   formatEmailForFirebase : function(email){
     var key = email.replace('@', '^');
