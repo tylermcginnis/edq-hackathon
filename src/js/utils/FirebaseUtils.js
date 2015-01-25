@@ -107,7 +107,7 @@ var firebaseUtils = {
     }
 
     ref.child('classes').child(userEmail).on('value', function(snapshot){
-      var arr = this.toArray(snapshot.val());
+      var arr = this.toArray(snapshot.val()).sort(this.sortData("name", true));
       dispatcherCB(arr);
     }.bind(this))
   },
@@ -116,6 +116,14 @@ var firebaseUtils = {
     ref.child('user').child(userEamil).on('value', function(snapshot){
       var user = snapshot.val();
     })
+  removeClass: function(name, email){
+    var ref = this.homeInstance();
+    if(email){
+      email = this.formatEmailForFirebase(email);
+    } else {
+      email = this.formatEmailForFirebase(ref.getAuth().password.email);
+    }
+    ref.child('classes').child(email).child(name.toLowerCase()).remove();
   },
   formatURL: function(str){
     return str.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
@@ -133,6 +141,15 @@ var firebaseUtils = {
       return key.split('.').join('*');
     }
     return key;
+  },
+  sortData: function(field, reverse, primer){
+    var key = primer ?
+      function(x) {return primer(x[field])} :
+      function(x) {return x[field]};
+    reverse = [-1, 1][+!!reverse];
+    return function (a, b) {
+      return a = key(a), b = key(b), reverse * ((a > b) - (b > a));
+    }
   }
 };
 

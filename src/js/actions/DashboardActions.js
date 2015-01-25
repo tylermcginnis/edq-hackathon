@@ -17,11 +17,12 @@ var dashboardActions = {
     });
     FirebaseUtils.addClassToFirebase(klass);
   },
-  removeClass: function(index) {
+  removeClass: function(index, name, email) {
     AppDispatcher.handleAction({
       actionType: AppConstants.REMOVE_CLASS,
       data: index
     });
+    FirebaseUtils.removeClass(name, email);
   },
   getClasses: function(userEmail){
     FirebaseUtils.getClasses(userEmail, getClassesCallback);
