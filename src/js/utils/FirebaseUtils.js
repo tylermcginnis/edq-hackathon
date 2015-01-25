@@ -66,6 +66,23 @@ var firebaseUtils = {
       };
     });
   },
+  resetPassword: function(email, cb){
+    this.homeInstance().resetPassword({
+      email: email
+    }, function(error){
+      if (error) {
+        switch (error.code) {
+          case "INVALID_USER":
+            cb("The specified user account does not exist.");
+            break;
+          default:
+            cb("Error resetting password:", error);
+        }
+      } else {
+        cb(null, "Password reset email sent successfully!");
+      }
+    })
+  },
   changeName: function(obj, cb){
     var id = this.formatEmailForFirebase(obj.user.email);
     this.homeInstance().child('user').child(id).child('name').set(obj.newName, cb)

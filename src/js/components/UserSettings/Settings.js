@@ -56,7 +56,8 @@ var Settings = React.createClass({
 	//TODO: Fix it.
 	},
 	handleResetPassword: function(){
-		
+		SettingsActions.resetPassword(this.state.user.email);
+		this.handlePasswordToggle();
 	},
 	render: function(){
 		var cx = ReactAddons.addons.classSet;
@@ -94,7 +95,8 @@ var Settings = React.createClass({
 					<div className={passwordInputClass}>
 						<input placeholder='Old Password' type='password' className='form-control' value={this.state.originalPass} onChange={this.handleChange.bind(this, 'originalPass')}/>
 						<input placeholder='New Password' type='password' className='form-control' value={this.state.newPass} onChange={this.handleChange.bind(this, 'newPass')}/>
-						<button className='btn btn-default' onClick={this.handleChangePassword} >Submit</button>
+						<button className='btn btn-default' onClick={this.handleChangePassword} >Change Password</button>
+						<button className='btn btn-default' onClick={this.handleResetPassword} >Reset Password</button>
 					</div>
 				</div>
 				</div>

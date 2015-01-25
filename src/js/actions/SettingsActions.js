@@ -20,11 +20,11 @@ var settingsActions = {
 	},
 
 	resetPassword: function(email){
-		FirebaseUtils.resetPassword(email, function(err){
+		FirebaseUtils.resetPassword(email, function(err, message){
 			if(err){
 				console.log(err)
 			} else{
-				//Nothing, presumably.
+				console.log(message);
 			}
 		})
 	},
