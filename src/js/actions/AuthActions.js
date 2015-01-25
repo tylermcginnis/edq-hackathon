@@ -3,10 +3,12 @@ var AppConstants = require('../constants/AppConstants');
 var FirebaseUtils = require('../utils/FirebaseUtils');
 
 var dispatcherCallback = function(authObj) {
-  AppDispatcher.handleAction({
-    actionType: AppConstants.INITIALIZE_USER,
-    data: authObj
-  });
+  if(authObj){
+    AppDispatcher.handleAction({
+      actionType: AppConstants.INITIALIZE_USER,
+      data: authObj
+    });
+  }
 };
 
 var registrationActions = {

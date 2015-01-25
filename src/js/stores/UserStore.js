@@ -10,14 +10,13 @@ var _state = {
   user: {
     name: '',
     email: '',
-    password: ''
+    password: '',
+    loggedIn: false
   }
 };
 
-var initializeUser = function(user) {
-  _state = {
-    user: user
-  }
+var initializeUser = function(authObj) {
+  _state = authObj
 };
 
 var updateUser = function(obj){

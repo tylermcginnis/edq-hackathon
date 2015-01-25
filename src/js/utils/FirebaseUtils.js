@@ -22,10 +22,16 @@ var firebaseUtils = {
       } else if(error === null){
         ref.authWithPassword(user, function(err, authData) {
           if(err === null){
-            cb(user);
+            authData.user = {
+              loggedIn: true,
+              name: user.name
+            }
+            cb(authData);
             this.addUserToFirebase({
               email: user.email,
-              name: user.name
+              name: user.name,
+              uid: authData.uid,
+              token: authData.token,
             });
           }
         }.bind(this));
@@ -125,6 +131,7 @@ var firebaseUtils = {
         });
       };
       var finalClassList = [];
+      //Fix: Query w/ Array instead of forloop
       for(var i = 0; i < classes.length; i++){
         (function(i){
           ref.child('classes').child(classes[i].classID).once('value', function(snapshot){
