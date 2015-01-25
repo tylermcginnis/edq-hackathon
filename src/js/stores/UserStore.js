@@ -22,7 +22,7 @@ var initializeUser = function(user) {
 
 var updateUser = function(obj){
   _state.user[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]]
-}
+};
 
 var UserStore = objectAssign({}, EventEmitter.prototype, {
   getState: function() {

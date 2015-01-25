@@ -24,7 +24,13 @@ var registrationActions = {
       email: email,
       password: pw
     }, function(err, authData){
-      //you are logged in redirect
+      // console.log(err, authData);
+      AppDispatcher.handleAction({
+        actionType: AppConstants.UPDATE_USER,
+        data: {
+          email: authData.password.email
+        }
+      })
     })
   }
 };

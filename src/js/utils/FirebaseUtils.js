@@ -34,7 +34,7 @@ var firebaseUtils = {
   },
   login: function(userObj, cb){
     this.homeInstance().authWithPassword(userObj, function(error, authData){
-      cb(authData);
+      cb(error, authData);
     }.bind(this));
   },
   changePassword: function(obj, cb){
@@ -110,6 +110,12 @@ var firebaseUtils = {
       var arr = this.toArray(snapshot.val());
       dispatcherCB(arr);
     }.bind(this))
+  },
+  getUser: function(){
+    var userEmail = this.formatEmailForFirebase(ref.getAuth.password.email);
+    ref.child('user').child(userEamil).on('value', function(snapshot){
+      var user = snapshot.val();
+    })
   },
   formatURL: function(str){
     return str.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
