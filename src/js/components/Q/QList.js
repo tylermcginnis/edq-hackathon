@@ -5,7 +5,7 @@ var QList = React.createClass({
 	render: function(){
 		var items = this.props.q.map(function(item){
 			return (
-				<QItem item={item} />
+				<QItem item={item} isTeacher='true'/>
 			)
 		});
 		return (

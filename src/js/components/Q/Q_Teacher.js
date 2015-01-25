@@ -27,9 +27,16 @@ var Q = React.createClass({
 	},
 	render: function(){
 		return(
-			<div className='container'>
-				<QList q={this.state.q} />
-			</div>
+	      <div className="col-md-8 col-md-offset-2">
+	        <div className="panel panel-default">
+	        	<div className='panel-heading'>
+	        		<h1>{this.state.name}</h1>
+	        	</div>
+	        	<div className='panel-body'>
+							<QList q={this.state.q} />
+						</div>
+					</div>
+				</div>
 		)
 	}
 });
