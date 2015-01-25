@@ -21,8 +21,11 @@ var initializeUser = function(user) {
 };
 
 var updateUser = function(obj){
-  _state.user[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]]
-}
+  // _state.user[Object.keys(obj)[0]] = obj[Object.keys(obj)[0]]
+  for(var key in obj){
+    _state.user[key] = obj[key];
+  };
+};
 
 var UserStore = objectAssign({}, EventEmitter.prototype, {
   getState: function() {

@@ -34,7 +34,10 @@ var firebaseUtils = {
   },
   login: function(userObj, cb){
     this.homeInstance().authWithPassword(userObj, function(error, authData){
-      cb(authData);
+      this.getUser(function(userData){
+        authData.name = userData.name;
+        cb(error, authData);
+      })
     }.bind(this));
   },
   changePassword: function(obj, cb){
@@ -110,6 +113,14 @@ var firebaseUtils = {
       var arr = this.toArray(snapshot.val()).sort(this.sortData("name", true));
       dispatcherCB(arr);
     }.bind(this))
+  },
+  getUser: function(cb){
+    var ref = this.homeInstance();
+    var userEmail = this.formatEmailForFirebase(ref.getAuth().password.email);
+    ref.child('user').child(userEmail).on('value', function(snapshot){
+      var user = snapshot.val();
+      cb(user);
+    });
   },
   removeClass: function(name, email){
     var ref = this.homeInstance();
