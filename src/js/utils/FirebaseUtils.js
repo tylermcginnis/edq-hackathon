@@ -118,7 +118,7 @@ var firebaseUtils = {
     } else {
       email = this.formatEmailForFirebase(ref.getAuth().password.email);
     }
-    ref.child('classes').child(email).child(name.toLowerCase()).remove();
+    ref.child('classes').child(email).child(this.formatURL(name)).remove();
   },
   formatURL: function(str){
     return str.toLowerCase().replace(/ /g,'-').replace(/[-]+/g, '-').replace(/[^\w-]+/g,'');
