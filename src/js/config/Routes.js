@@ -7,7 +7,6 @@ var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
 
-console.log(Settings)
 
 module.exports = (
   <Route name="app" path="/" handler={App}>
