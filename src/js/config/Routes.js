@@ -5,6 +5,7 @@ var Registration = require('../components/Auth/Registration');
 var Login = require('../components/Auth/Login');
 var Dashboard = require('../components/Dashboard/Dashboard');
 var Settings = require('../components/UserSettings/Settings');
+var Q_Teacher = require('../components/Q/Q_Teacher');
 var Router = require('react-router');
 var DefaultRoute = Router.DefaultRoute;
 var Route = Router.Route;
@@ -17,5 +18,6 @@ module.exports = (
     <Route name="classList" handler={ClassList} />
     <Route name='settings' handler={Settings} />
     <Route name='login' handler={Login} />
+    <Route name='q-teacher' handler={Q_Teacher} />
   </Route>
 );
