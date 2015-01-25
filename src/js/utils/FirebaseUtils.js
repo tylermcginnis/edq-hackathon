@@ -63,8 +63,12 @@ var firebaseUtils = {
         }
       } else {
         cb();
-      }
-    })
+      };
+    });
+  },
+  changeName: function(obj, cb){
+    var id = this.formatEmailForFirebase(obj.user.email);
+    this.homeInstance().child('user').child(id).child('name').set(obj.newName, cb)
   },
   addUserToFirebase: function(authData){
     var key = this.formatEmailForFirebase(authData.email);

@@ -14,6 +14,12 @@ var Settings = React.createClass({
 			newPass: ''
 		}
 	},
+	componentDidMount: function () {
+	    UserStore.addChangeListener(this._onChange);  
+	},
+	componentWillUnmount: function () {
+	    UserStore.removeChangeListener(this._onChange);  
+	},
 	handleNameToggle: function(){
 		this.setState({
 			showNameInput: !this.state.showNameInput
@@ -27,7 +33,7 @@ var Settings = React.createClass({
 	handleChange: function(prop, e){
 		var obj = {};
 		obj[prop] = e.target.value;
-		this.setState(obj)
+		this.setState(obj);
 	},
 	handleChangePassword: function(){
 		SettingsActions.changePassword({
@@ -37,7 +43,20 @@ var Settings = React.createClass({
 		});
 	},
 	handleChangeName: function(){
-
+		var obj = {
+			user: this.state.user,
+			newName: this.state.newName
+		};
+		SettingsActions.changeName(obj);
+		this.handleNameToggle();
+	//There's a problem, and it's here somewhere.
+	//By the time the data gets to the AppDispatcher.handleAction
+	//in SettingsActions.js, it's in a circular structure
+	//user.user.user.user, etc.
+	//TODO: Fix it.
+	},
+	handleResetPassword: function(){
+		
 	},
 	render: function(){
 		var cx = ReactAddons.addons.classSet;
@@ -83,7 +102,8 @@ var Settings = React.createClass({
 		)
 	},
 	_onChange: function(){
-		
+		this.setState(UserStore.getState())
+		console.log(this.state);
 	}
 });
 

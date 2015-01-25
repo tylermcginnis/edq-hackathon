@@ -4,21 +4,47 @@ var FirebaseUtils = require('../utils/FirebaseUtils');
 
 var settingsActions = {
 	changePassword: function(obj){
-
-		//FireBase utils here first
-
 		FirebaseUtils.changePassword(obj, function(err){
 			if(err){
 				console.log(err);
 			} else {
-				console.log('got Here!')
 				AppDispatcher.handleAction({
 					actionType: AppConstants.UPDATE_USER,
 					data: obj
 				});
+				//Does this really need to happen? ^^
+				//The store won't change.  The password
+				//remains private.  Probably remove.
+			};
+		});
+	},
+
+	resetPassword: function(email){
+		FirebaseUtils.resetPassword(email, function(err){
+			if(err){
+				console.log(err)
+			} else{
+				//Nothing, presumably.
 			}
 		})
+	},
+
+	changeName: function(obj){
+		FirebaseUtils.changeName(obj, function(err){
+			if(err){
+				console.log(err);
+			} else {
+				AppDispatcher.handleAction({
+					actionType: AppConstants.UPDATE_USER,
+					data: {
+						name: obj.newName,
+						email: obj.user.email
+					}
+				});
+			};
+		});
 	}
+
 };
 
 module.exports = settingsActions;
